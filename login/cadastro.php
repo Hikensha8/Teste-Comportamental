@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php endif; ?>
 
       <form method="POST">
-        <label class="form-label">Nome</label>
+        <label class="form-label">Nome  (Será usado no teste)</label>
         <input type="text" name="nome" class="form-control mb-3"
                value="<?= htmlspecialchars($nome) ?>" required>
 
