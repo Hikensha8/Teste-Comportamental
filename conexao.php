@@ -12,5 +12,4 @@ $conn = new PDO(
     $senha
 );
 
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // útil para depuração, mas não recomendado em produção
-// $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); não é necessário se a versão do php for 8.0.0 ou maior (conferir documentação)
+// $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); não é necessário se a versão do php for 8.0.0 ou maior 

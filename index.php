@@ -1,5 +1,6 @@
 <?php
-require_once "conexão.php"; 
+require "./login/verifica_login.php";
+require_once "conexao.php"; 
 
 /* ==========================================================
    index.php — Página inicial (FRONT-END PRONTO)
