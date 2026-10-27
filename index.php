@@ -1,4 +1,6 @@
 <?php
+require_once "conexão.php"; 
+
 /* ==========================================================
    index.php — Página inicial (FRONT-END PRONTO)
    TODO (aluno): 
