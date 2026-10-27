@@ -1,7 +1,6 @@
 <?php
+require_once './login/verifica_login.php';
 require_once 'dados/perguntas.php';
-
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -16,7 +15,7 @@ require_once 'dados/perguntas.php';
 <!-- Barra de progresso (JavaScript no final do arquivo só atualiza a barra; não calcula resultado) -->
 <div class="topo-progresso">
   <div class="container" style="padding:0">
-    <div class="texto"><span>Olá, Nome do participante</span><span id="contador">0 de 24 respondidas</span></div>
+    <div class="texto"><span>Olá, <?= htmlspecialchars($_SESSION['usuario_nome'], ENT_QUOTES, 'UTF-8') ?></span><span id="contador">0 de 24 respondidas</span></div>
     <div class="barra"><span id="preenchimento"></span></div>
   </div>
 </div>
@@ -30,10 +29,7 @@ require_once 'dados/perguntas.php';
     Responda todas para ver seu resultado. (mensagem de exemplo)
   </div>
 
-  <!-- TODO (aluno): action e method; não esqueça de reenviar o nome -->
   <form action="resultado.php" method="post" id="form-teste">
-    <input type="hidden" name="nome" value="">
-
     <!-- ===== MODELO DE UMA PERGUNTA — repita com foreach ===== -->
     <fieldset class="pergunta" style="margin-left:0;margin-right:0">
       <legend class="numero" style="padding:0">Pergunta 1 de 24</legend>

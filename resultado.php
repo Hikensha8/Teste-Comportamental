@@ -1,4 +1,6 @@
 <?php
+require_once './login/verifica_login.php';
+
 /* ==========================================================
    resultado.php — Tela do resultado (FRONT-END PRONTO, com dados de exemplo)
 
@@ -28,7 +30,7 @@
 
   <!-- MODELO A: perfil único. Troque "aguia" pela classe do perfil vencedor -->
   <section class="destaque aguia">
-    <div class="pequeno">Nome do participante, seu perfil predominante é</div>
+    <div class="pequeno"><?= htmlspecialchars($_SESSION['usuario_nome'], ENT_QUOTES, 'UTF-8') ?>, seu perfil predominante é</div>
     <h1>Águia</h1>
     <p><strong>Sonhador / Inovador</strong> — 8 pontos · 33,3%</p>
   </section>
