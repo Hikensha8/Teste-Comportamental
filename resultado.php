@@ -45,21 +45,36 @@ $nomesPerfis = [
     'lobo' => 'Lobo',
     'tubarao' => 'Tubarão',
 ];
+$descricoesPerfis = [
+    'aguia' => [
+        'caracteristicas' => 'Sonhador / Inovador',
+        'descricao' => 'Criativo e visionário, gosta de mudanças, inovação e possibilidades futuras. Pode ter muitas ideias e dar menos atenção aos detalhes.',
+    ],
+    'gato' => [
+        'caracteristicas' => 'Comunicativo / Relacional',
+        'descricao' => 'Comunicativo e sociável, valoriza relacionamentos, colaboração e o contato com outras pessoas.',
+    ],
+    'lobo' => [
+        'caracteristicas' => 'Organizado / Planejador',
+        'descricao' => 'Organizado e cuidadoso, valoriza planejamento, informações claras e segurança antes de agir.',
+    ],
+    'tubarao' => [
+        'caracteristicas' => 'Executor / Prático',
+        'descricao' => 'Prático e determinado, gosta de desafios, decisões rápidas e foco em resultados.',
+    ],
+];
 $percentuais = [];
 
 foreach ($pontuacoes as $perfil => $pontuacao) {
     $percentuais[$perfil] = $pontuacao / count($perguntas) * 100;
 }
 
-/* ==========================================================
-   resultado.php — Tela do resultado (FRONT-END PRONTO, com dados de exemplo)
-
-   TODO (aluno):
-   1. Se houver empate: usar a classe "empate" em .destaque e o título
-      "Resultado combinado: Águia + Lobo"
-   2. Perfil único: trocar a classe de cor (aguia | gato | lobo | tubarao)
-      no .destaque e no .descricao
-   ========================================================== */
+$nomeUsuario = htmlspecialchars($_SESSION['usuario_nome'], ENT_QUOTES, 'UTF-8');
+$nomesPredominantes = [];
+foreach ($perfisPredominantes as $perfil) {
+    $nomesPredominantes[] = $nomesPerfis[$perfil];
+}
+$empate = count($perfisPredominantes) > 1;
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -72,20 +87,18 @@ foreach ($pontuacoes as $perfil => $pontuacao) {
 <body>
 <main class="container">
 
-  <!-- MODELO A: perfil único. Troque "aguia" pela classe do perfil vencedor -->
-  <section class="destaque aguia">
-    <div class="pequeno"><?= htmlspecialchars($_SESSION['usuario_nome'], ENT_QUOTES, 'UTF-8') ?>, seu perfil predominante é</div>
-    <h1>Águia</h1>
-    <p><strong>Sonhador / Inovador</strong> — 8 pontos · 33,3%</p>
+  <section class="destaque <?= $empate ? 'empate' : htmlspecialchars($perfisPredominantes[0], ENT_QUOTES, 'UTF-8') ?>">
+    <?php if ($empate): ?>
+    <div class="pequeno"><?= $nomeUsuario ?>, você teve</div>
+    <h1>Resultado combinado: <?= htmlspecialchars(implode(' + ', $nomesPredominantes), ENT_QUOTES, 'UTF-8') ?></h1>
+    <p>Os perfis predominantes empataram com <?= $maiorPontuacao ?> pontos cada.</p>
+    <?php else: ?>
+    <?php $perfilPredominante = $perfisPredominantes[0]; ?>
+    <div class="pequeno"><?= $nomeUsuario ?>, seu perfil predominante é</div>
+    <h1><?= htmlspecialchars($nomesPerfis[$perfilPredominante], ENT_QUOTES, 'UTF-8') ?></h1>
+    <p><strong><?= htmlspecialchars($descricoesPerfis[$perfilPredominante]['caracteristicas'], ENT_QUOTES, 'UTF-8') ?></strong> — <?= $maiorPontuacao ?> pontos · <?= number_format($percentuais[$perfilPredominante], 1, ',', '.') ?>%</p>
+    <?php endif; ?>
   </section>
-
-  <!-- MODELO B: empate. Use no lugar do modelo A quando houver mais de um vencedor
-  <section class="destaque empate">
-    <div class="pequeno">Nome do participante, você teve</div>
-    <h1>Resultado combinado: Águia + Lobo</h1>
-    <p>Dois ou mais perfis empataram com a maior pontuação.</p>
-  </section>
-  -->
 
   <section class="painel">
     <h2>Sua pontuação</h2>
@@ -99,11 +112,12 @@ foreach ($pontuacoes as $perfil => $pontuacao) {
       <?php endforeach; ?>
     </ul>
 
-    <!-- TODO (aluno): mostrar a descrição do(s) perfil(is) predominante(s) -->
-    <div class="descricao aguia">
-      <h3>Águia — Sonhador / Inovador</h3>
-      <p>Criativo, visionário, gosta de mudanças, inovação e possibilidades futuras. Pode ter muitas ideias e menor atenção aos detalhes.</p>
+    <?php foreach ($perfisPredominantes as $perfil): ?>
+    <div class="descricao <?= htmlspecialchars($perfil, ENT_QUOTES, 'UTF-8') ?>">
+      <h3><?= htmlspecialchars($nomesPerfis[$perfil], ENT_QUOTES, 'UTF-8') ?> — <?= htmlspecialchars($descricoesPerfis[$perfil]['caracteristicas'], ENT_QUOTES, 'UTF-8') ?></h3>
+      <p><?= htmlspecialchars($descricoesPerfis[$perfil]['descricao'], ENT_QUOTES, 'UTF-8') ?></p>
     </div>
+    <?php endforeach; ?>
   </section>
 
   <div class="acoes">
