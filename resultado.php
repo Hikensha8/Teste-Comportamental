@@ -1,20 +1,41 @@
 <?php
 require_once './login/verifica_login.php';
+require_once 'dados/perguntas.php';
+
+$respostas = $_POST['respostas'] ?? null;
+$respostasValidas = ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && is_array($respostas);
+
+if ($respostasValidas) {
+    $respostasValidas = count($respostas) === count($perguntas);
+
+    foreach ($perguntas as $indice => $pergunta) {
+        $perfisValidos = array_column($pergunta['alternativas'], 'perfil');
+        if (!isset($respostas[$indice]) || !in_array($respostas[$indice], $perfisValidos, true)) {
+            $respostasValidas = false;
+            break;
+        }
+    }
+}
+
+if (!$respostasValidas) {
+    $_SESSION['erro_teste'] = 'respostas';
+    header('Location: teste.php');
+    exit;
+}
 
 /* ==========================================================
    resultado.php — Tela do resultado (FRONT-END PRONTO, com dados de exemplo)
 
    TODO (aluno):
-   1. Receber $_POST, validar nome e as 24 respostas (se inválido, voltar ao teste)
-   2. Somar os pontos de cada perfil (aguia, gato, lobo, tubarao)
-   3. Descobrir o maior valor e os perfis predominantes (tratar EMPATE)
-   4. Calcular o percentual: pontos / 24 * 100 (formatar com 1 ou 2 casas)
-   5. Substituir os valores fixos abaixo por variáveis PHP
-   6. Se houver empate: usar a classe "empate" em .destaque e o título
+   1. Somar os pontos de cada perfil (aguia, gato, lobo, tubarao)
+   2. Descobrir o maior valor e os perfis predominantes (tratar EMPATE)
+   3. Calcular o percentual: pontos / 24 * 100 (formatar com 1 ou 2 casas)
+   4. Substituir os valores fixos abaixo por variáveis PHP
+   5. Se houver empate: usar a classe "empate" em .destaque e o título
       "Resultado combinado: Águia + Lobo"
-   7. Perfil único: trocar a classe de cor (aguia | gato | lobo | tubarao)
+   6. Perfil único: trocar a classe de cor (aguia | gato | lobo | tubarao)
       no .destaque e no .descricao
-   8. O CÁLCULO DEVE SER FEITO NO PHP (não vale usar JavaScript)
+   7. O CÁLCULO DEVE SER FEITO NO PHP (não vale usar JavaScript)
    ========================================================== */
 ?>
 <!DOCTYPE html>

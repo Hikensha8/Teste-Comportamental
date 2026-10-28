@@ -3,6 +3,8 @@ require_once './login/verifica_login.php';
 require_once 'dados/perguntas.php';
 
 $totalPerguntas = count($perguntas);
+$erroTeste = $_SESSION['erro_teste'] ?? null;
+unset($_SESSION['erro_teste']);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -25,22 +27,22 @@ $totalPerguntas = count($perguntas);
 <main class="container">
   <h1 class="titulo-pagina">Escolha uma alternativa por pergunta</h1>
 
-  <!-- TODO (aluno): exiba somente se a validação falhar -->
+  <?php if ($erroTeste === 'respostas'): ?>
   <div class="alerta" role="alert">
     <strong>Faltam perguntas sem resposta.</strong>
-    Responda todas para ver seu resultado. (mensagem de exemplo)
+    Responda todas as perguntas para ver seu resultado.
   </div>
+  <?php endif; ?>
 
-  <!-- <fieldset> é usado para agrupar elementos, assim como labels (<label>), dentro de um formulário web.-->
   <form action="resultado.php" method="post" id="form-teste">
     <?php foreach ($perguntas as $indice => $pergunta): ?>
     <fieldset class="pergunta" style="margin-left:0;margin-right:0">
       <legend class="numero" style="padding:0">Pergunta <?= $indice + 1 ?> de <?= $totalPerguntas ?></legend>
       <h2><?= htmlspecialchars($pergunta['texto'], ENT_QUOTES, 'UTF-8') ?></h2>
 
-      <?php foreach ($pergunta['alternativas'] as $alternativa): ?>
+      <?php foreach ($pergunta['alternativas'] as $indiceAlternativa => $alternativa): ?>
       <label class="opcao">
-        <input type="radio" name="respostas[<?= $indice ?>]" value="<?= htmlspecialchars($alternativa['perfil'], ENT_QUOTES, 'UTF-8') ?>">
+        <input type="radio" name="respostas[<?= $indice ?>]" value="<?= htmlspecialchars($alternativa['perfil'], ENT_QUOTES, 'UTF-8') ?>"<?= $indiceAlternativa === 0 ? ' required' : '' ?>>
         <span><?= htmlspecialchars($alternativa['texto'], ENT_QUOTES, 'UTF-8') ?></span>
       </label>
       <?php endforeach; ?>
