@@ -23,19 +23,32 @@ if (!$respostasValidas) {
     exit;
 }
 
+$perfis = array_column($perguntas[0]['alternativas'], 'perfil');
+$pontuacoes = array_fill_keys($perfis, 0);
+
+foreach ($respostas as $perfil) {
+    $pontuacoes[$perfil]++;
+}
+
+$maiorPontuacao = max($pontuacoes);
+$perfisPredominantes = [];
+
+foreach ($pontuacoes as $perfil => $pontuacao) {
+    if ($pontuacao === $maiorPontuacao) {
+        $perfisPredominantes[] = $perfil;
+    }
+}
+
 /* ==========================================================
    resultado.php — Tela do resultado (FRONT-END PRONTO, com dados de exemplo)
 
    TODO (aluno):
-   1. Somar os pontos de cada perfil (aguia, gato, lobo, tubarao)
-   2. Descobrir o maior valor e os perfis predominantes (tratar EMPATE)
-   3. Calcular o percentual: pontos / 24 * 100 (formatar com 1 ou 2 casas)
-   4. Substituir os valores fixos abaixo por variáveis PHP
-   5. Se houver empate: usar a classe "empate" em .destaque e o título
+   1. Calcular o percentual: pontos / 24 * 100 (formatar com 1 ou 2 casas)
+   2. Substituir os valores fixos abaixo por variáveis PHP
+   3. Se houver empate: usar a classe "empate" em .destaque e o título
       "Resultado combinado: Águia + Lobo"
-   6. Perfil único: trocar a classe de cor (aguia | gato | lobo | tubarao)
+   4. Perfil único: trocar a classe de cor (aguia | gato | lobo | tubarao)
       no .destaque e no .descricao
-   7. O CÁLCULO DEVE SER FEITO NO PHP (não vale usar JavaScript)
    ========================================================== */
 ?>
 <!DOCTYPE html>
