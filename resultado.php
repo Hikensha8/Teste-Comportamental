@@ -39,15 +39,25 @@ foreach ($pontuacoes as $perfil => $pontuacao) {
     }
 }
 
+$nomesPerfis = [
+    'aguia' => 'Águia',
+    'gato' => 'Gato',
+    'lobo' => 'Lobo',
+    'tubarao' => 'Tubarão',
+];
+$percentuais = [];
+
+foreach ($pontuacoes as $perfil => $pontuacao) {
+    $percentuais[$perfil] = $pontuacao / count($perguntas) * 100;
+}
+
 /* ==========================================================
    resultado.php — Tela do resultado (FRONT-END PRONTO, com dados de exemplo)
 
    TODO (aluno):
-   1. Calcular o percentual: pontos / 24 * 100 (formatar com 1 ou 2 casas)
-   2. Substituir os valores fixos abaixo por variáveis PHP
-   3. Se houver empate: usar a classe "empate" em .destaque e o título
+   1. Se houver empate: usar a classe "empate" em .destaque e o título
       "Resultado combinado: Águia + Lobo"
-   4. Perfil único: trocar a classe de cor (aguia | gato | lobo | tubarao)
+   2. Perfil único: trocar a classe de cor (aguia | gato | lobo | tubarao)
       no .destaque e no .descricao
    ========================================================== */
 ?>
@@ -80,23 +90,13 @@ foreach ($pontuacoes as $perfil => $pontuacao) {
   <section class="painel">
     <h2>Sua pontuação</h2>
     <ul class="placar">
-      <!-- TODO (aluno): gerar as 4 linhas com foreach. A largura da barra vem do percentual -->
-      <li class="aguia">
-        <div class="linha"><span>Águia</span><span>8 pontos · 33,3%</span></div>
-        <div class="trilho"><span style="width:33.3%"></span></div>
+      <?php foreach ($pontuacoes as $perfil => $pontuacao): ?>
+      <?php $percentual = $percentuais[$perfil]; ?>
+      <li class="<?= htmlspecialchars($perfil, ENT_QUOTES, 'UTF-8') ?>">
+        <div class="linha"><span><?= htmlspecialchars($nomesPerfis[$perfil], ENT_QUOTES, 'UTF-8') ?></span><span><?= $pontuacao ?> pontos · <?= number_format($percentual, 1, ',', '.') ?>%</span></div>
+        <div class="trilho"><span style="width:<?= number_format($percentual, 1, '.', '') ?>%"></span></div>
       </li>
-      <li class="gato">
-        <div class="linha"><span>Gato</span><span>5 pontos · 20,8%</span></div>
-        <div class="trilho"><span style="width:20.8%"></span></div>
-      </li>
-      <li class="lobo">
-        <div class="linha"><span>Lobo</span><span>7 pontos · 29,2%</span></div>
-        <div class="trilho"><span style="width:29.2%"></span></div>
-      </li>
-      <li class="tubarao">
-        <div class="linha"><span>Tubarão</span><span>4 pontos · 16,7%</span></div>
-        <div class="trilho"><span style="width:16.7%"></span></div>
-      </li>
+      <?php endforeach; ?>
     </ul>
 
     <!-- TODO (aluno): mostrar a descrição do(s) perfil(is) predominante(s) -->
