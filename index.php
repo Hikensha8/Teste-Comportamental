@@ -2,12 +2,6 @@
 require "./login/verifica_login.php";
 require_once "conexao.php"; 
 
-/* ==========================================================
-   index.php — Página inicial (FRONT-END PRONTO)
-   TODO (aluno): 
-   - Ler a mensagem de erro (ex.: nome vazio) e exibi-la dentro do bloco .alerta
-   - Decidir como o nome chega ao teste.php (POST, GET ou $_SESSION)
-   ========================================================== */
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
